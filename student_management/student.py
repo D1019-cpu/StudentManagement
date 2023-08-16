@@ -3,9 +3,9 @@ import student_management.data as d
 
 def add_student():
     """Add Student Function"""
-    print('-'*40)
-    print("Add Student".center(40, '-'))
-
+    print('-'*80)
+    print("|", "Add Student".center(76, ' '), "|",sep=' ')
+    print('-'*80)
     # struct of the student
     infor = {
         'id': '',
@@ -16,30 +16,38 @@ def add_student():
         'CPA': ''
     }
 
-    id = input("Enter ID of the student: ")
+    print("|Enter ID of the student: ".ljust(78, ' '), "|", sep=' ')
+    id = input("|ID: ")
     while True:
         student = find_student(id)
         if student != False:
-            id = input("ID already exist, Please re-enter: ")
+            id = input("|ID already exist, Please re-enter: ")
         else:
             break
     
     infor['id'] = id
 
     # Name, age, gender, address, CPA
-    infor['name'] = input("Enter name of the student: ") 
-    infor['age'] = input("Enter age of the student: ")
-    infor['gender'] = input("Enter gender of the student: ")
-    infor['address'] = input("Enter address of the student: ")
-    infor['CPA'] = input("Enter CPA of the student: ")       
+    print("|Enter name of the student: ".ljust(78, ' '), "|", sep=' ')
+    infor['name'] = input("|Name: ")
+    print("|Enter age of the student: ".ljust(78, ' '), "|", sep=' ') 
+    infor['age'] = input("|Age: ")
+    print("|Enter gender of the student: ".ljust(78, ' '), "|", sep=' ')
+    infor['gender'] = input("|Gender: ")
+    print("|Enter address of the student: ".ljust(78, ' '), "|", sep=' ')
+    infor['address'] = input("|Address: ")
+    print("|Enter CPA of the student: ".ljust(78, ' '), "|", sep=' ')
+    infor['CPA'] = input("|CPA: ")       
 
     # adding data
     d.list_students.append(infor)
+    print("|", "Adding Student Successfully!".center(76, ' '), "|", sep=' ')
+    print('-'*80)
     
 def find_student(id):
     """Find Student Function"""
     for index, item in enumerate(d.list_students):
-        if d.list_students[index]['id'] == 'id':
+        if d.list_students[index]['id'] == id:
             # if id match return index and data
             return [index,item]
     return False
@@ -57,6 +65,7 @@ def edit_student():
     print("-"*40)
     id = input("Enter ID of the student: ")
     student = find_student(id)
+    # print(student)
     if student != False:
         # return [index,item]
         # Edit Name, age, gender, address, CPA
