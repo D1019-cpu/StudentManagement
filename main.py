@@ -11,6 +11,8 @@ while action >= 0:
         s.edit_student()
     elif action == 4:
         s.show_students()
+    else:
+        print("Action out of range, please choose again!")
     
     print("Choose action")
     print("Enter 1: Add Student")
@@ -19,5 +21,9 @@ while action >= 0:
     print("Enter 4: Show List Students")
     print("Enter 0: Exit")
 
-    action = int(input(":"))
+    try: 
+        action = int(input(":"))
+    except ValueError:
+        raise ValueError("Please Enter A Number... Shut Down Program...")
+        
     if action == 0: break
