@@ -1,3 +1,6 @@
+import json
+
+
 def isEmpty(s):
     return len(s) == 0
 
@@ -17,27 +20,29 @@ def isBlank(s):
 def retrieve_data(filename):
     data = []
     try:
-        with open(file=filename, mode='r', encoding='utf-8') as f:
-            data = f.read()
+        with open(file=filename, mode='r') as f:
+            data = json.load(f)
     except IOError as e:
         print("Error Code:", e)
-    return list(data)
+    return data
 
 
 def save_data(filename, data):
-    data = str(data)
     try:
-        with open(file=filename, mode='w', encoding='utf-8') as f:
-            f.write(data)
-            print("Save data successfully!!!")
+        with open(file=filename, mode='w') as f:
+            json.dump(data,f)
+            print("|","Save data successfully!!!".center(76, ' '), "|")
     except IOError as e:
         print("Error Code:", e)
 
-
-list_students = retrieve_data("data.txt")
+list_students = []
+def load_data():
+    global list_students
+    list_students = retrieve_data("data.json")
 
 
 def add_student():
+    global list_students
     """Add Student Function"""
     print('-'*80)
     print("|", "Add Student".center(76, ' '), "|",sep=' ')
@@ -85,13 +90,14 @@ def add_student():
 
     # adding data
     list_students.append(infor)
-    save_data("data.txt", list_students)
+    save_data("data.json", list_students)
 
     print("|", "Adding Student Successfully!".center(76, ' '), "|", sep=' ')
     print('-'*80)
 
 
 def find_student(id):
+    global list_students
     """Find Student Function"""
     for index, item in enumerate(list_students):
         if list_students[index]['id'] == id:
@@ -101,9 +107,10 @@ def find_student(id):
 
 
 def show_students():
-    list_students = retrieve_data("data.txt")
-    print(list_students)
-    print(type(list_students))
+    # list_students = retrieve_data("data.json")
+    # print(list_students)
+    # print(type(list_students))
+    global list_students
     """Show List Students Function"""
     print('-'*80)
     print("|", "List Students".center(76, ' '), "|", sep=' ')
@@ -114,6 +121,7 @@ def show_students():
 
 def edit_student():
     """Edit Student Function"""
+    global list_students
     print("-"*80)
     print("|", "Edit Student".center(76, ' '), "|", sep=' ')
 
@@ -149,7 +157,7 @@ def edit_student():
                 print("Fields must have values.")
         
         list_students[student[0]] = student[1]
-        save_data("data.txt",list_students)
+        save_data("data.json",list_students)
     else:
         print("|", "ID of the student does not exist!!!".center(76, ' '), "|", sep=' ')
     print("-"*80)
@@ -157,6 +165,7 @@ def edit_student():
 
 def delete_student():
     """Delete Student Function"""
+    global list_students
     print("-"*80)
     print("|", "Delete Student".center(76, ' '), "|", sep=' ')
     print("|Enter ID of the student: ".ljust(78, ' '), "|", sep=' ')
@@ -168,7 +177,7 @@ def delete_student():
     student = find_student(id)
     if student != False:
         list_students.remove(student[1])
-        save_data("data.txt",list_students)
+        save_data("data.json",list_students)
         print("|", "Delete Student Successfully!".center(76, ' '), "|", sep=' ')
     else:
         print("|", "Deleted candidate could not be located.".center(76, ' '), "|", sep=' ')

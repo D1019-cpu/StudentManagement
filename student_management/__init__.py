@@ -1,7 +1,7 @@
 import os
 
 
-if not os.path.exists("data.txt"):
-    open(file="data.txt", mode='w',encoding='utf-8').close()
+if not os.path.exists("data.json"):
+    open(file="data.json", mode='w').close()
     print("File Created!")
 

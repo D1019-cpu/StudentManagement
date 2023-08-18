@@ -1,5 +1,6 @@
 import student_management.student as s
 
+s.load_data()
 
 action = 0
 while action >= 0:
