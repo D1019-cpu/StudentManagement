@@ -1,6 +1,3 @@
-import student_management.data as d 
-
-
 def isEmpty(s):
     return len(s) == 0
 
@@ -15,6 +12,29 @@ def isBlank(s):
 # print(isEmpty(s1))
 # print(isBlank(s2))
 # print(isBlank(s1))
+
+
+def retrieve_data(filename):
+    data = []
+    try:
+        with open(file=filename, mode='r', encoding='utf-8') as f:
+            data = f.read()
+    except IOError as e:
+        print("Error Code:", e)
+    return list(data)
+
+
+def save_data(filename, data):
+    data = str(data)
+    try:
+        with open(file=filename, mode='w', encoding='utf-8') as f:
+            f.write(data)
+            print("Save data successfully!!!")
+    except IOError as e:
+        print("Error Code:", e)
+
+
+list_students = retrieve_data("data.txt")
 
 
 def add_student():
@@ -64,26 +84,33 @@ def add_student():
             print("Fields must have values.")
 
     # adding data
-    d.list_students.append(infor)
+    list_students.append(infor)
+    save_data("data.txt", list_students)
+
     print("|", "Adding Student Successfully!".center(76, ' '), "|", sep=' ')
     print('-'*80)
-    
+
+
 def find_student(id):
     """Find Student Function"""
-    for index, item in enumerate(d.list_students):
-        if d.list_students[index]['id'] == id:
+    for index, item in enumerate(list_students):
+        if list_students[index]['id'] == id:
             # if id match return index and data
             return [index,item]
     return False
 
 
 def show_students():
+    list_students = retrieve_data("data.txt")
+    print(list_students)
+    print(type(list_students))
     """Show List Students Function"""
     print('-'*80)
     print("|", "List Students".center(76, ' '), "|", sep=' ')
-    for i in d.list_students:
-        print(f"| {i['id']:4} | {i['name']:25} | {i['age']:4} | {i['gender']:7} | {i['address']:15} {i['CPA']:8} |")
+    for i in list_students:
+        print(f"| {i['id']:4} | {i['name']:25} | {i['age']:4} | {i['gender']:7} | {i['address']:13} | {i['CPA']:8} |")
     print('-'*80)
+
 
 def edit_student():
     """Edit Student Function"""
@@ -121,10 +148,12 @@ def edit_student():
             else:
                 print("Fields must have values.")
         
-        d.list_students[student[0]] = student[1]
+        list_students[student[0]] = student[1]
+        save_data("data.txt",list_students)
     else:
         print("|", "ID of the student does not exist!!!".center(76, ' '), "|", sep=' ')
     print("-"*80)
+
 
 def delete_student():
     """Delete Student Function"""
@@ -138,7 +167,8 @@ def delete_student():
 
     student = find_student(id)
     if student != False:
-        d.list_students.remove(student[1])
+        list_students.remove(student[1])
+        save_data("data.txt",list_students)
         print("|", "Delete Student Successfully!".center(76, ' '), "|", sep=' ')
     else:
         print("|", "Deleted candidate could not be located.".center(76, ' '), "|", sep=' ')
